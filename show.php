@@ -14,7 +14,6 @@
     	<td>Кол-во</td>
     	<td>Комментарий от заказчика</td>
     </tr>';
-	$row =0;
 	if (( $fp = fopen('file.csv','r'))!==FALSE){
 		while (($data = fgetcsv($fp, 1000, ','))!==FALSE){
 			$num = count($data);
