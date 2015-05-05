@@ -31,12 +31,16 @@ header{
 }
 
 .form{
-	height: 100px;
-	padding: 15px;
+	height: 140px;
 	text-align: center;
 	border: 1px solid black;
 	border-radius: 3px;
+	padding: 15px;
 }
+	.field { clear: both; text-align: right; line-height:25px; }
+	label { float: left; padding-right:20px; }
+	.form-block{ float: left; padding-left: 290px; }
+	button[type="submit"]{ margin-top: 15px; }
 
 h1{
 	animation-name: name;

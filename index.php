@@ -2,7 +2,8 @@
 session_start();
 $_SESSION['name'];//имя пользователя	
 $_SESSION['role'];//его роль
-
+$connect = mysql_connect("localhost","root","") or die(mysql_error());
+mysql_select_db("shop");
 ?>
 <html>
 <head>
@@ -33,21 +34,23 @@ $_SESSION['role'];//его роль
     ?>
 	<div class="form">
 	<form method="post" action="index.php">
-		<label for="fio">ФИО</label>
-			<input type="text" name="fio" id="fio" required /><br/>
-		<label for="products">Выберите продукт</label>
+		<div class="form-block">
+		<div class="field"><label for="fio">ФИО</label>
+			<input type="text" name="fio" id="fio" required /></div>
+		<div class="field"><label for="products">Выберите продукт</label>
 			<select name="prod" id="products">
 		 		<?php    
 		 			foreach ($products as $value) {
 	                    echo '<option value="'.$value['id'].'">'.$value['name'].' '.$value['price'].' руб.</option>';
 		 			}
 		 		?>
-			</select><br/>
-		<label for="num">Кол-во</label>
-				<input type="text" name="num" id="num" required><br/>
-		<label for="com">Ваш комментарий</label>
-			<input type="text" name="com" id="com" required><br/>
+			</select></div>
+		<div class="field"><label for="num">Кол-во</label>
+				<input type="text" name="num" id="num" required></div>
+		<div class="field"><label for="com">Ваш комментарий</label>
+			<input type="text" name="com" id="com" required></div>
 		<button type="submit">Отправить данные</button>
+	</div>
 	</form>
 	</div>
 	<a class="right" href = "signin.php">SIGN IN</a>
@@ -70,10 +73,9 @@ $_SESSION['role'];//его роль
 		<p>Мы обязательно примем к сведению ваш отзыв: <b>$com</b></p>
 		<p>Спасибо за покупку! Приходите ещё!</p>
 HERE;
-		$fp = fopen('file.csv','a');
-		$list = array($fio, $pro, $_POST['num'], $com);
-		fputcsv($fp, $list);
-		fclose($fp);
+		$num = $_POST['num'];
+		$query = "INSERT INTO orders VALUES ('','$fio','$pro','$num','$com')";
+		$result = mysql_query($query) or die(mysql_error());
 	}
 ?>
 </div>

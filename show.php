@@ -1,4 +1,8 @@
-<!DOCTYPE>
+<?php
+session_start();
+$_SESSION['name'];
+$_SESSION['role'];
+?>
 <html>
 <head>
  <title>Интернет-магазин "Шабашka" </title>
@@ -6,6 +10,12 @@
 </head>
 <body>
 <?php
+    if($_SESSION['role']=='admin')
+	{
+
+	$connect = mysql_connect("localhost","root","") or die(mysql_error());
+	mysql_select_db("shop");
+	$result = mysql_query("SELECT * FROM orders");
     echo '<table border>
     <tr>
     	<td>Номер</td>
@@ -14,20 +24,19 @@
     	<td>Кол-во</td>
     	<td>Комментарий от заказчика</td>
     </tr>';
-	if (( $fp = fopen('file.csv','r'))!==FALSE){
-		while (($data = fgetcsv($fp, 1000, ','))!==FALSE){
-			$num = count($data);
-			$row++;
-			echo '<tr>';
-			echo '<td align="middle">'.$row.'</td>';
-			for($c=0;$c < $num; $c++){
-				echo '<td align="middle">'.$data[$c]."</td>";
-			}
-			echo '</tr>';
-		}
-		fclose($fp);
+	
+	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) 
+	{
+    	echo "\t<tr>\n";
+    	foreach ($line as $col_value) 
+    	{
+        	echo "\t\t<td>$col_value</td>\n";
+    	}
+    	echo "\t</tr>\n";
 	}
-	echo '</tabe>';
+	echo "</table>\n";
+	mysql_free_result($result);
+	}
 ?>
 </body>
 </html>
